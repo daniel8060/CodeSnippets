@@ -3,8 +3,8 @@ import pyglet
 from gameOfLife import GameOfLife
 
 class Window(pyglet.window.Window):
-    def __init__(self):
-        super().__init__(600,600)
+    def __init__(self, windowWidth=1280 ,windowHeight=720):
+        super().__init__(windowWidth,windowHeight)
         self.gameofLife = GameOfLife(self.get_size()[0],
                                      self.get_size()[1],
                                      20,

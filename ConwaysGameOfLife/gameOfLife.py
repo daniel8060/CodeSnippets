@@ -71,7 +71,7 @@ class GameOfLife:
     def draw(self):
         for row in range (0,self.gridHeight):
             for col in range(0,self.gridWidth):
-                if self.cells[row][col]==1: #alive
+                if self.cells[row][col]==0: #draw dead ones for more contrast
                     squareCoords = (row*self.cellSize, col*self.cellSize,
                                     row*self.cellSize,col*self.cellSize + self.cellSize,
                                     row*self.cellSize + self.cellSize,col*self.cellSize,
