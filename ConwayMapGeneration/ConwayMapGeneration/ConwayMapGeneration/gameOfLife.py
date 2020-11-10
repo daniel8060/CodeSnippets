@@ -3,7 +3,9 @@ import numpy as np
 import pyglet
 
 class GameOfLife: 
+    #constructor if we are using a window display via pyglet. 
     def __init__ (self,windowWidth,windowHeight,cellSize,odds,maxIter = 4096):
+        #some class variables
         self.maxIter=int(maxIter)
         self.currIter=int(0)
         self.bIsDone=bool(False)
@@ -11,13 +13,32 @@ class GameOfLife:
         self.gridWidth= int(windowWidth/cellSize)
         self.gridHeight= int(windowWidth/cellSize)
         self.cellSize = cellSize
-
+        #some array class variables
         self.cells = np.array([[0 for row in range(0,self.gridHeight)]for y in range (0,self.gridWidth)])
         self.totalSum= np.array([[0 for row in range(0,self.gridHeight)]for y in range (0,self.gridWidth)])
         self.memory= np.array([np.zeros(self.gridWidth*self.gridHeight),
                               np.zeros(self.gridWidth*self.gridHeight),
                               np.zeros(self.gridWidth*self.gridHeight)])
+        #initialize
+        self.generate_cells()
+        self.memory[0]=self.cells.flatten() 
 
+    #Constructor if we aren't using pyglet for a windowed display. 
+    def __init__(self,gridWidth,gridHeight,odds,maxIter=256):
+        #some class variables 
+        self.maxIter=int(maxIter)
+        self.currIter=int(0)
+        self.bIsDone=bool(False)
+        self.odds=odds
+        self.gridWidth= gridWidth
+        self.gridHeight= gridHeight
+        #some array class members 
+        self.cells = np.array([[0 for row in range(0,self.gridHeight)]for y in range (0,self.gridWidth)])
+        self.totalSum= np.array([[0 for row in range(0,self.gridHeight)]for y in range (0,self.gridWidth)])
+        self.memory= np.array([np.zeros(self.gridWidth*self.gridHeight),
+                              np.zeros(self.gridWidth*self.gridHeight),
+                              np.zeros(self.gridWidth*self.gridHeight)])
+        #initialize
         self.generate_cells()
         self.memory[0]=self.cells.flatten() 
 
