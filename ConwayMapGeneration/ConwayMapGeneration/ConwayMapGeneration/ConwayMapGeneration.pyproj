@@ -5,8 +5,7 @@
     <ProjectGuid>541ca4e6-02df-4022-8e0b-a100ff5cebb3</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>ConwayMapGeneration.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\ConwayMapGeneration</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>ConwayMapGeneration</Name>
@@ -25,7 +24,7 @@
     <Compile Include="gameOfLife.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConwayMap.py">
+    <Compile Include="conwaygrid.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

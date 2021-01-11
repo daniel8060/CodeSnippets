@@ -33,11 +33,12 @@ class GameOfLife:
         self.gridWidth= gridWidth
         self.gridHeight= gridHeight
         #some array class members 
-        self.cells = np.array([[0 for row in range(0,self.gridHeight)]for y in range (0,self.gridWidth)])
-        self.totalSum= np.array([[0 for row in range(0,self.gridHeight)]for y in range (0,self.gridWidth)])
+        self.cells    = np.zeros([self.gridWidth,self.gridHeight], np.uint8)
+        self.totalSum = np.zeros([self.gridWidth,self.gridHeight], np.uint8)
         self.memory= np.array([np.zeros(self.gridWidth*self.gridHeight),
-                              np.zeros(self.gridWidth*self.gridHeight),
-                              np.zeros(self.gridWidth*self.gridHeight)])
+                               np.zeros(self.gridWidth*self.gridHeight),
+                               np.zeros(self.gridWidth*self.gridHeight)], np.uint8)
+
         #initialize
         self.generate_cells()
         self.memory[0]=self.cells.flatten() 
@@ -81,10 +82,24 @@ class GameOfLife:
         else:
            return 0
 
-    #plan to make it keep clipping until we reach desired standard variation. 
+    #Smooth out generated values and add some "lakes" (i.e. dips below 0)  
     def processSum(self):
-       # while(np.var(self.totalSum) > 64):  
-            np.clip(self.totalSum,0,np.mean(self.totalSum)-(2*np.var(self.totalSum)))
+        while(np.var(self.totalSum) > 10):  
+            #find tallest peak(s)
+            max=np.where(self.totalSum==np.amax(self.totalSum))
+            print("max: ", max)
+            #merge x and y coordinates into points
+            listOfCordinates = list(zip(max[0], max[1]))
+            for max in listOfCordinates: #for each point
+                print(max)
+                i =max[0]
+                j = max[1]
+                #make it and the adjacent cells negative (create a lake ???)
+                self.totalSum[i-2:i+2,j-2:j+2] = -self.totalSum[i-2:i+2,j-2:j+2]
+
+
+            self.totalSum = self.totalSum*.9
+            print("variance of matrix: ", np.var(self.totalSum))
 
     """
      Ruleset for this cellular automaton. Also checks for when to stop, which is when all cells are same as 2 iterations ago. 
@@ -112,7 +127,7 @@ class GameOfLife:
 
             self.currIter+=1
             print(self.currIter)
-            self.totalSum+=self.cells 
+            self.totalSum =(self.totalSum + self.cells )
         else:
            # print(self.totalSum)
             self.processSum()
@@ -134,6 +149,10 @@ class GameOfLife:
                                          ('v2i',squareCoords))
 
 
+
+  #self.memory= np.array([np.zeros(self.gridWidth*self.gridHeight),
+  #                       np.zeros(self.gridWidth*self.gridHeight),
+  #                       np.zeros(self.gridWidth*self.gridHeight)], np.uint8)
 
     #def run_rules(self):
     #    newCells = []
